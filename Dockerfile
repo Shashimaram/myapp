@@ -1,18 +1,26 @@
-FROM ubuntu
 
+FROM --platform=linux/amd64 alpine:latest
+
+# Install system packages
+RUN apk update && \
+    apk add --no-cache python3 py3-pip
+
+# Set working directory
 WORKDIR /app
 
-COPY requirements.txt /app
-COPY devops /app
+# Copy application files
+COPY . /app
 
-RUN apt-get update && \
-    apt-get install -y python3 python3-pip && \
-    pip install -r requirements.txt && \
-    cd devops
+# Create and activate a virtual environment
+RUN python3 -m venv /venv
+ENV PATH="/venv/bin:$PATH"
 
-ENTRYPOINT ["python3"]
-CMD ["manage.py", "runserver", "0.0.0.0:8000"]
+# Upgrade pip and install Django within the virtual environment
+RUN pip install --no-cache-dir --upgrade pip setuptools && \
+    pip install --no-cache-dir django
 
+# Expose port
+EXPOSE 8000
 
-
-
+# Command to run the application using the virtual environment
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
