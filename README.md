@@ -1,1 +1,1 @@
-this is just a django application
+this is just a django applicatio
