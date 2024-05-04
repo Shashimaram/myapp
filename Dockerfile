@@ -22,5 +22,5 @@ RUN pip install --no-cache-dir --upgrade pip setuptools && \
 # Expose port
 EXPOSE 8000
 
-# Command to run the application using the virtual environment
+# Command to run the application using the virtual environmen
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
