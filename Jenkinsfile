@@ -1,12 +1,13 @@
 pipeline {
-    agent {
-        docker { image 'node:20.11.1-alpine3.19' }
-    }
+    agent any
     stages {
         stage('Test') {
-            steps {
-                sh 'node --version'
+            agent{
+                docker { image 'node:20.11.1-alpine3.19' }
             }
+        }
+        steps {
+        sh 'mvn clean install'
         }
     }
 }
